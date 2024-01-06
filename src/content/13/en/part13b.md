@@ -433,7 +433,7 @@ The current code for the application is in its entirety on [GitHub](https://gith
 
 ### Connection between the tables
 
-Users can now be added to the application and users can log in, but this in itself this is not a very useful feature yet. We would like to add the features that only a logged-in user can add notes, and that each note is associated with the user who created it. To do this, we need to add a <i>foreign key</i> to the <i>notes</i> table.
+Users can now be added to the application and users can log in, but this in itself is not a very useful feature yet. We would like to add the features that only a logged-in user can add notes, and that each note is associated with the user who created it. To do this, we need to add a <i>foreign key</i> to the <i>notes</i> table.
 
 When using Sequelize, a foreign key can be defined by modifying the <i>models/index.js</i> file as follows
 
@@ -629,7 +629,7 @@ Note.belongsTo(User)
 
 Sequelize will automatically create an attribute called <i>userId</i> on the <i>Note</i> model to which, when referenced gives access to the database column <i>user_id</i>.
 
-Keep in mind, that we could also create a note as follows using the [build](https://sequelize.org/master/class/lib/model.js~Model.html#static-method-build) method:
+Keep in mind, that we could also create a note as follows using the [build](https://sequelize.org/api/v6/class/src/model.js~model#static-method-build) method:
 
 ```js
 const user = await User.findByPk(req.decodedToken.id)

@@ -277,7 +277,7 @@ const resolvers = {
           throw new GraphQLError('Creating the user failed', {
             extensions: {
               code: 'BAD_USER_INPUT',
-              invalidArgs: args.name,
+              invalidArgs: args.username,
               error
             }
           })
@@ -368,8 +368,6 @@ const http = require('http')
 // highlight-end
 
 const jwt = require('jsonwebtoken')
-
-const JWT_SECRET = 'NEED_HERE_A_SECRET_KEY'
 
 const mongoose = require('mongoose')
 
@@ -631,9 +629,9 @@ It's possible to test the subscriptions with the Apollo Explorer like this:
 
 ![apollo explorer showing subscriptions tab and response](../../images/8/31x.png)
 
-When the blue button <i>PersonAdded</i> is pressed, Explorer starts to wait for a new person to be added. On addition (that you need to do from another browser window), the info of the added person appears in the right side of the Explorer.
+When the blue button <i>PersonAdded</i> is pressed, Explorer starts to wait for a new person to be added. On addition (that you need to do from another browser window), the info of the added person appears on the right side of the Explorer.
 
-If the subscription does not work, check that you have correct connection settings:
+If the subscription does not work, check that you have the correct connection settings:
 
 ![apollo studio showing cog red arrow highlighting](../../images/8/35.png)
 
@@ -644,7 +642,7 @@ Implementing subscriptions involves a lot of configurations. You will be able to
 ### Subscriptions on the client
 
 In order to use subscriptions in our React application, we have to do some changes, especially to its [configuration](https://www.apollographql.com/docs/react/data/subscriptions/).
-The configuration in <i>index.js</i> has to be modified like so:
+The configuration in <i>main.jsx</i> has to be modified like so:
 
 ```js
 import { 
@@ -770,7 +768,9 @@ const App = () => {
   // ...
 
   useSubscription(PERSON_ADDED, {
-    onData: ({ data }) => {
+    // highlight-start
+    onData: ({ data, client }) => {
+    // highlight-end
       const addedPerson = data.data.personAdded
       notify(`${addedPerson.name} added`)
 
@@ -854,7 +854,7 @@ const PersonForm = ({ setError }) => {
 } 
 ```
 
-The final code of the client can be found on [GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-frontend/tree/part8-9), branch <i>part8-9</i>.
+The final code of the client can be found on [GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-frontend/tree/part8-6), branch <i>part8-6</i>.
 
 ### n+1 problem
 
@@ -1071,7 +1071,7 @@ GraphQL Foundation's [DataLoader](https://github.com/graphql/dataloader) library
 ### Epilogue
 
 The application we created in this part is not optimally structured: we did some cleanups but much would still need to be done. Examples for better structuring of GraphQL applications can be found on the internet. For example, for the server
-[here](https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2) and the client [here](https://medium.com/@peterpme/thoughts-on-structuring-your-apollo-queries-mutations-939ba4746cd8).
+[here](https://www.apollographql.com/blog/modularizing-your-graphql-schema-code) and the client [here](https://medium.com/@peterpme/thoughts-on-structuring-your-apollo-queries-mutations-939ba4746cd8).
 
 GraphQL is already a pretty old technology, having been used by Facebook since 2012, so we can see it as "battle-tested" already. Since Facebook published GraphQL in 2015, it has slowly gotten more and more attention, and might in the near future threaten the dominance of REST. The death of REST has also already been [predicted](https://www.stridenyc.com/podcasts/52-is-2018-the-year-graphql-kills-rest). Even though that will not happen quite yet, GraphQL is absolutely worth [learning](https://blog.graphqleditor.com/javascript-predictions-for-2019-by-npm/).
 

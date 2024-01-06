@@ -136,7 +136,7 @@ Teknisesti ottaen HTTP-protokolla ei taivu hyvin palvelimelta selaimeen päin ta
 
 Apollo Server ei versiosta 3.0 alkaen enää ole tarjonnut suoraa tukea subscriptiolle ja joudummekin tekemään joukon muutoksia että saamme ne toimimaan. Siistitään samalla myös sovelluksen rakennetta hiukan. 
 
-Aloitetaan eriyttämällä skeeman määrittely omaan tiedostoon <i>schema.js</i>
+Aloitetaan eriyttämällä backendissä skeeman määrittely omaan tiedostoon <i>schema.js</i>
 
 ```js
 const typeDefs = `
@@ -627,12 +627,16 @@ Tilauksia on mahdollista testata Apollo Explorerin avulla seuraavasti:
 
 ![](../../images/8/31x.png)
 
+Tilaus siis on
+
+```js
 subscription Subscription {
   personAdded {
     phone
     name
   }
 }
+```
 
 Kun tilauksen suorittavaa sinistä PersonAdded-painiketta painetaan, jää Explorer odottamaan tilaukseen tulevia vastauksia. Aina kun sovellukseen lisätään uusia käyttäjiä (joudut tekemään lisäyksen frontendista tai toisesta selainikkunasta), tulee tieto niistä Explorerin oikeaan reunaan.
 
@@ -647,7 +651,7 @@ Tilausten toteuttamiseen liittyy paljon erilaista konfiguraatiota. Tämän kurss
 
 ### Tilaukset clientissä
 
-Jotta saamme tilaukset käyttöön React-sovelluksessa, tarvitaan jonkin verran muutoksia erityisesti [konfiguraatioiden osalta](https://www.apollographql.com/docs/react/data/subscriptions/). Tiedostossa <i>index.js</i> olevat konfiguraatiot on muokattava seuraavaan muotoon:
+Jotta saamme tilaukset käyttöön React-sovelluksessa, tarvitaan jonkin verran muutoksia erityisesti [konfiguraatioiden osalta](https://www.apollographql.com/docs/react/data/subscriptions/). Tiedostossa <i>main.jsx</i> olevat konfiguraatiot on muokattava seuraavaan muotoon:
 
 ```js
 import { 
@@ -856,7 +860,7 @@ const PersonForm = ({ setError }) => {
 } 
 ```
 
-Clientin lopullinen koodi [GitHubissa](https://github.com/fullstack-hy2020/graphql-phonebook-frontend/tree/part8-8), branchissa <i>part8-8</i>.
+Clientin lopullinen koodi [GitHubissa](https://github.com/fullstack-hy2020/graphql-phonebook-frontend/tree/part8-6), branchissa <i>part8-6</i>.
 
 ### n+1-ongelma
 
@@ -1030,7 +1034,7 @@ Facebookin kehittämä [dataloader](https://github.com/facebook/dataloader)-kirj
 ### Loppusanat
 
 Tässä osassa rakentamamme sovellus ei ole optimaalisella tavalla strukturoitu, teimme pientä siivousta siirtämällä skeeman ja resolverit omiin tiedostoihin mutta parantamisen varaa jäi edelleen paljon. Esimerkkejä GraphQL-sovellusten parempaan strukturointiin löytyy internetistä, esim. serveriin
-[täältä](https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2) ja clientiin [täältä](https://medium.com/@peterpme/thoughts-on-structuring-your-apollo-queries-mutations-939ba4746cd8).
+[täältä](https://www.apollographql.com/blog/modularizing-your-graphql-schema-code) ja clientiin [täältä](https://medium.com/@peterpme/thoughts-on-structuring-your-apollo-queries-mutations-939ba4746cd8).
 
 GraphQL on jo melko iäkäs teknologia, se on ollut Facebookin sisäisessä käytössä jo vuodesta 2012 lähtien, teknologian voi siis todeta olevan "battle tested". Facebook julkaisi GraphQL:n vuonna 2015 ja se on pikkuhiljaa saanut enenevissä määrin huomiota ja nousee ehkä lähivuosina uhmaamaan REST:in valta-asemaa. REST:in [kuolemaakin](https://www.stridenyc.com/podcasts/52-is-2018-the-year-graphql-kills-rest) on jo ennusteltu. Vaikka se ei tulekaan ihan heti tapahtumaan, on GraphQL ehdottomasti [tutustumisen arvoinen](https://blog.graphqleditor.com/javascript-predictions-for-2019-by-npm/).
 

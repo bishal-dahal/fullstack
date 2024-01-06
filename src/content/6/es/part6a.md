@@ -90,7 +90,9 @@ Cambiemos un poco el código. Es habitual usar el comando [switch](https://devel
 Definamos también un [valor predeterminado](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters) de 0 para el <i>estado</i> del parámetro . Ahora el reducer funciona incluso si el estado del store aún no se ha indicado.
 
 ```js
+// highlight-start
 const counterReducer = (state = 0, action) => {
+  // highlight-end
   switch (action.type) {
     case 'INCREMENT':
       return state + 1
@@ -108,13 +110,17 @@ const counterReducer = (state = 0, action) => {
 No se supone que Reducer se llame directamente desde el código de la aplicación. Reducer solo se proporciona como parámetro a la función _createStore_ que crea el store:
 
 ```js
+// highlight-start
 import { createStore } from 'redux'
+// highlight-end
 
 const counterReducer = (state = 0, action) => {
   // ...
 }
 
+// highlight-start
 const store = createStore(counterReducer)
+// highlight-end
 ```
 
 
@@ -585,7 +591,7 @@ const numbers = [1, 2, 3]
 ```
 
 
-<code>...numbers</code> divide el array en elementos individuales, que se pueden colocar, es decir, en otro array.
+<code>...numbers</code> divide el array en elementos individuales, que se pueden colocar en otro array.
 
 ```js
 [...numbers, 4, 5]
@@ -1222,7 +1228,7 @@ La aplicación se puede iniciar como de costumbre, pero primero debe instalar la
 
 ```bash
 npm install
-npm start
+npm run dev
 ```
 
 
@@ -1243,7 +1249,7 @@ Implementar la funcionalidad para agregar nuevas anécdotas.
 
 Puede mantener el formulario no controlado, como hicimos [antes](/es/part6/flux_architecture_y_redux#formulario-no-controlado).
 
-#### 6.5*: anécdotas, paso 3
+#### 6.5: anécdotas, paso 3
 
 
 Asegúrese de que las anécdotas estén ordenadas por número de votos.

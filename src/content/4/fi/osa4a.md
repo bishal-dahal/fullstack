@@ -66,7 +66,7 @@ app.listen(config.PORT, () => {
 
 <i>index.js</i> ainoastaan importtaa tiedostossa <i>app.js</i> olevan varsinaisen sovelluksen ja käynnistää sen. Käynnistymisestä kertova konsolitulostus tehdään logger-moduulin funktion _info_ avulla.
 
-Nyt Express-sovellus ja sen käynnistysestä ja verkkoasetuksista huolehtiva on eriytetty toisistaan [parhaita](https://dev.to/nermineslimane/always-separate-app-and-server-files--1nc7) [käytänteitä](https://nodejsbestpractices.com/sections/projectstructre/separateexpress) noudattaen. Eräs tämä tavan eduista on se, että sovelluksen toimintaa voi nyt testata API-tasolle tehtävien HTTP-kutsujen tasolla kuitenkaan tekemättä kutsuja varsinaisesti HTTP:llä verkon yli. Tämä tekee testien suorittamisesta nopeampaa.
+Nyt Express-sovellus sekä sen käynnistymisestä ja verkkoasetuksista huolehtiva koodi on eriytetty toisistaan [parhaita](https://dev.to/nermineslimane/always-separate-app-and-server-files--1nc7) käytänteitä noudattaen. Eräs tämän tavan eduista on se, että sovelluksen toimintaa voi nyt testata API-tasolle tehtävien HTTP-kutsujen tasolla kuitenkaan tekemättä kutsuja varsinaisesti HTTP:llä verkon yli. Tämä tekee testien suorittamisesta nopeampaa.
 
 Ympäristömuuttujien käsittely on eriytetty moduulin <i>utils/config.js</i> vastuulle:
 
@@ -130,7 +130,7 @@ notesRouter.post('/', (request, response, next) => {
 })
 
 notesRouter.delete('/:id', (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id)
+  Note.findByIdAndDelete(request.params.id)
     .then(() => {
       response.status(204).end()
     })
@@ -396,6 +396,14 @@ Eli eksportoitava asia (tässä tilanteessa router-olio) sijoitetaan muuttujaan 
 ### Tehtävät 4.1.-4.2.
 
 Rakennamme tämän osan tehtävissä <i>blogilistasovellusta</i>, jonka avulla käyttäjien on mahdollista tallettaa tietoja Internetistä löytämistään mielenkiintoisista blogeista. Kustakin blogista talletetaan sen kirjoittaja (author), aihe (title), url sekä blogilistasovelluksen käyttäjien antamien äänien määrä.
+
+**HUOM** Asenna Mongoosesta versio 7.6.5 komennolla
+
+```bash
+npm install mongoose@7.6.5
+```
+
+Joudumme käyttämään hieman vanhempaa versiota, sillä uusin Mongoose-versio ei tue kirjastoa, jota tulemme käyttämään kurssin myöhemmässä osassa!
 
 
 #### 4.1 blogilista, step1

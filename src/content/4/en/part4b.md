@@ -21,7 +21,7 @@ The convention in Node is to define the execution mode of the application with t
 
 It is common practice to define separate modes for development and testing.
 
-Next, let's change the scripts in our <i>package.json</i> so that when tests are run, <i>NODE\_ENV</i> gets the value <i>test</i>:
+Next, let's change the scripts in our notes application <i>package.json</i> file, so that when tests are run, <i>NODE\_ENV</i> gets the value <i>test</i>:
 
 ```json
 {
@@ -798,7 +798,7 @@ notesRouter.get('/:id', async (request, response, next) => {
 
 notesRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Note.findByIdAndRemove(request.params.id)
+    await Note.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } catch(exception) {
     next(exception)
@@ -856,7 +856,7 @@ For example the route for deleting a note
 ```js
 notesRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Note.findByIdAndRemove(request.params.id)
+    await Note.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } catch (exception) {
     next(exception)
@@ -868,7 +868,7 @@ becomes
 
 ```js
 notesRouter.delete('/:id', async (request, response) => {
-  await Note.findByIdAndRemove(request.params.id)
+  await Note.findByIdAndDelete(request.params.id)
   response.status(204).end()
 })
 ```

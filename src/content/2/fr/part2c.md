@@ -315,7 +315,7 @@ promise.then(response => {
 ```
 Ce qui suit est renvoyé sur la console :
 
-![](../../images/2/17e.png)
+![](../../images/2/17new.png)
 
 L'environnement d'exécution JavaScript appelle la fonction de rappel enregistrée par la méthode <em>then</em> en lui fournissant un objet <em>response</em> en tant que paramètre. L'objet <em>response</em> contient toutes les données essentielles liées à la réponse d'une requête HTTP GET, qui inclurait les <i>données</i> renvoyées, le <i>code d'état</i> et <i>en-têtes</i>.
 
@@ -642,7 +642,7 @@ Si vous utilisez Open weather map, trouvez [ici](https://openweathermap.org/weat
 En supposant que la clé API est <i>t0p53cr3t4p1k3yv4lu3</i>, lorsque l'application est démarrée comme suit :
 
 ```bash
-REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3 npm start // For Linux/macOS Bash
+export REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3 && npm start // For Linux/macOS Bash
 ($env:REACT_APP_API_KEY="t0p53cr3t4p1k3yv4lu3") -and (npm start) // For Windows PowerShell
 set "REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3" && npm start // For Windows cmd.exe
 ```

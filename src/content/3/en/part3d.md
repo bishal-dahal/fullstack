@@ -85,7 +85,7 @@ When validating an object fails, we return the following default error message f
 ![postman showing error message](../../images/3/50.png)
 
 We notice that the backend has now a problem: validations are not done when editing a note.
-The [documentation](https://github.com/blakehaswell/mongoose-unique-validator#find--updates) addresses the issue by explaining that validations are not run by default when <i>findOneAndUpdate</i> is executed.
+The [documentation](https://github.com/blakehaswell/mongoose-unique-validator#find--updates) addresses the issue by explaining that validations are not run by default when <i>findOneAndUpdate</i> and related methods are executed.
 
 The fix is easy. Let us also reformulate the route code a bit:
 
@@ -292,13 +292,13 @@ It is recommended to create a separate _npm script_ for linting:
 
 Now the _npm run lint_ command will check every file in the project.
 
-Also the files in the <em>build</em> directory get checked when the command is run. We do not want this to happen, and we can accomplish this by creating an [.eslintignore](https://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories) file in the project's root with the following contents:
+Also the files in the <em>dist</em> directory get checked when the command is run. We do not want this to happen, and we can accomplish this by creating an [.eslintignore](https://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories) file in the project's root with the following contents:
 
 ```bash
-build
+dist
 ```
 
-This causes the entire <em>build</em> directory to not be checked by ESlint.
+This causes the entire <em>dist</em> directory to not be checked by ESlint.
 
 Lint has quite a lot to say about our code:
 
@@ -306,7 +306,7 @@ Lint has quite a lot to say about our code:
 
 Let's not fix these issues just yet.
 
-A better alternative to executing the linter from the command line is to configure a <i>eslint-plugin</i> to the editor, that runs the linter continuously. By using the plugin you will see errors in your code immediately. You can find more information about the Visual Studio ESLint plugin [here](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+A better alternative to executing the linter from the command line is to configure an <i>eslint-plugin</i> to the editor, that runs the linter continuously. By using the plugin you will see errors in your code immediately. You can find more information about the Visual Studio ESLint plugin [here](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
 The VS Code ESlint plugin will underline style violations with a red line:
 

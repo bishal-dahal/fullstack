@@ -40,7 +40,6 @@ module.exports = {
       b: 'Monta reduseria',
       c: 'Redux-sovelluksen kommunikointi palvelimen kanssa',
       d: 'React Query, useReducer ja context',
-      e: 'connect (vanha osa)',
     },
     '7': {
       a: 'React Router',
@@ -108,7 +107,6 @@ module.exports = {
       b: 'Many reducers',
       c: 'Communicating with server in a redux application',
       d: 'React Query, useReducer and the context',
-      e: 'connect (the old part)',
     },
     '7': {
       a: 'React Router',
@@ -131,7 +129,6 @@ module.exports = {
       c: 'Typing an Express app',
       d: 'React with types',
       e: 'Grande finale: Patientor',
-      f: 'Legacy patientor (the old material)',
     },
     '10': {
       a: 'Introduction to React Native',
@@ -305,13 +302,14 @@ module.exports = {
     '9': {
       a: 'Antecedentes e introducción',
       b: 'Primeros pasos con TypeScript',
-      c: 'Escribiendo una aplicación express',
+      c: 'Tipando una aplicación Express',
       d: 'React con tipos',
+      e: 'Grande finale: Patientor',
     },
     '10': {
       a: 'Introducción a React Native',
       b: 'Conceptos básicos de React Native',
-      c: 'Comunicandose con el servidor',
+      c: 'Comunicándose con el servidor',
       d: 'Probar y ampliar nuestra aplicación',
     },
     '11': {

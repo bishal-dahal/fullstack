@@ -41,6 +41,12 @@ Debugging is also possible with the Chrome developer console by starting your ap
 node --inspect index.js
 ```
 
+You can also pass the `--inspect` flag to `nodemon`:
+
+```bash
+nodemon --inspect index.js
+```
+
 You can access the debugger by clicking the green icon - the node logo - that appears in the Chrome developer console:
 
 ![dev tools with green node logo icon](../../images/3/37.png)
@@ -57,11 +63,11 @@ All of the application's <i>console.log</i> messages will appear in the <i>Conso
 
 Debugging Full Stack applications may seem tricky at first. Soon our application will also have a database in addition to the frontend and backend, and there will be many potential areas for bugs in the application.
 
-When the application "does not work", we have to first figure out where the problem actually occurs. It's very common for the problem to exist in a place where you didn't expect it to, and it can take minutes, hours, or even days before you find the source of the problem.
+When the application "does not work", we have to first figure out where the problem actually occurs. It's very common for the problem to exist in a place where you didn't expect it, and it can take minutes, hours, or even days before you find the source of the problem.
 
 The key is to be systematic. Since the problem can exist anywhere, <i>you must question everything</i>, and eliminate all possibilities one by one. Logging to the console, Postman, debuggers, and experience will help.
 
-When bugs occur, <i>the worst of all possible strategies</i> is to continue writing code. It will guarantee that your code will soon have even more bugs, and debugging them will be even more difficult. The [stop and fix](http://gettingtolean.com/toyota-principle-5-build-culture-stopping-fix/) principle from Toyota Production Systems is very effective in this situation as well.
+When bugs occur, <i>the worst of all possible strategies</i> is to continue writing code. It will guarantee that your code will soon have even more bugs, and debugging them will be even more difficult. The [stop and fix](https://leanscape.io/principles-of-lean-13-jidoka/) principle from Toyota Production Systems is very effective in this situation as well.
 
 ### MongoDB
 
@@ -103,7 +109,7 @@ Finally, we are ready to connect to our database. Start by clicking <i>connect</
 
 ![mongodb database deployment connect](../../images/3/mongo5.png)
 
-and choose: <i>Connect your application</i>:
+and choose: <i>Connect to your application</i>:
 
 ![mongodb connect application](../../images/3/mongo6.png)
 
@@ -127,7 +133,7 @@ Let's install Mongoose in our notes project backend:
 npm install mongoose
 ```
 
-Let's not add any code dealing with Mongo to our backend just yet. Instead, let's make a practice application by creating a new file, <i>mongo.js</i>:
+Let's not add any code dealing with Mongo to our backend just yet. Instead, let's make a practice application by creating a new file, <i>mongo.js</i> in the root of the notes backend application:
 
 ```js
 const mongoose = require('mongoose')
@@ -171,7 +177,7 @@ The code also assumes that it will be passed the password from the credentials w
 const password = process.argv[2]
 ```
 
-When the code is run with the command <i>node mongo.js password</i>, Mongo will add a new document to the database.
+When the code is run with the command <i>node mongo.js yourPassword</i>, Mongo will add a new document to the database.
 
 **NB:** Please note the password is the password created for the database user, not your MongoDB Atlas password.  Also, if you created a password with special characters, then you'll need to [URL encode that password](https://docs.atlas.mongodb.com/troubleshoot-connection/#special-characters-in-connection-string-password).
 
@@ -364,6 +370,8 @@ Let's get a quick start by copy-pasting the Mongoose definitions to the <i>index
 
 ```js
 const mongoose = require('mongoose')
+
+const password = process.argv[2]
 
 // DO NOT SAVE YOUR PASSWORD TO GITHUB!!
 const url =
@@ -559,7 +567,7 @@ However, a [better option](https://community.fly.io/t/clarification-on-environme
 and set the env value from the command line with the command:
 
 ```bash
-fly secrets set MONGODB_URI='mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority'
+fly secrets set MONGODB_URI="mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority"
 ```
 
 Since the PORT also is defined in our .env it is actually essential to ignore the file in Fly.io since otherwise the app starts in the wrong port.
@@ -759,7 +767,7 @@ app.get('/api/notes/:id', (request, response, next) => { // highlight-line
 })
 ```
 
-The error that is passed forwards is given to the <em>next</em> function as a parameter. If <em>next</em> was called without a parameter, then the execution would simply move onto the next route or middleware. If the <em>next</em> function is called with a parameter, then the execution will continue to the <i>error handler middleware</i>.
+The error that is passed forward is given to the <em>next</em> function as a parameter. If <em>next</em> was called without a parameter, then the execution would simply move onto the next route or middleware. If the <em>next</em> function is called with a parameter, then the execution will continue to the <i>error handler middleware</i>.
 
 Express [error handlers](https://expressjs.com/en/guide/error-handling.html) are middleware that are defined with a function that accepts <i>four parameters</i>. Our error handler looks like this:
 
@@ -789,7 +797,7 @@ The execution order of middleware is the same as the order that they are loaded 
 The correct order is the following:
 
 ```js
-app.use(express.static('build'))
+app.use(express.static('dist'))
 app.use(express.json())
 app.use(requestLogger)
 
@@ -852,11 +860,11 @@ Now the handling of unknown endpoints is ordered <i>before the HTTP request hand
 
 Let's add some missing functionality to our application, including deleting and updating an individual note.
 
-The easiest way to delete a note from the database is with the [findByIdAndRemove](https://mongoosejs.com/docs/api/model.html#model_Model-findByIdAndRemove) method:
+The easiest way to delete a note from the database is with the [findByIdAndDelete](https://mongoosejs.com/docs/api/model.html#Model.findByIdAndDelete()) method:
 
 ```js
 app.delete('/api/notes/:id', (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id)
+  Note.findByIdAndDelete(request.params.id)
     .then(result => {
       response.status(204).end()
     })
@@ -897,7 +905,7 @@ You can find the code for our current application in its entirety in the <i>part
 
 ### A true full stack developer's oath
 
-It is again time for the exercises. The complexity of our app is now taken another step since besides frontend and backend we also have a database. 
+It is again time for the exercises. The complexity of our app has now taken another step since besides frontend and backend we also have a database. 
 There are indeed really many potential sources of error.
 
 So we should once more extend our oath:

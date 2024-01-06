@@ -1141,8 +1141,6 @@ Remember, submit **all** the exercises of one part **in a single submission**. O
 
 <i>Some of the exercises work on the same application. In these cases, it is sufficient to submit just the final version of the application. If you wish, you can make a commit after every finished exercise, but it is not mandatory.</i>
 
-**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
-
 In some situations you may also have to run the command below from the root of the project:
 
 ```bash
@@ -1165,7 +1163,7 @@ The application must display the total number of collected feedback for each cat
 
 Note that your application needs to work only during a single browser session. Once you refresh the page, the collected feedback is allowed to disappear.
 
-It is advisable to use the same structure that is used in the material and previous exercise. File <i>index.js</i> is as follows:
+It is advisable to use the same structure that is used in the material and previous exercise. File <i>main.jsx</i> is as follows:
 
 ```js
 import React from 'react'
@@ -1176,7 +1174,7 @@ import App from './App'
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)
 ```
 
-You can use the code below as a starting point for the <i>App.js</i> file:
+You can use the code below as a starting point for the <i>App.jsx</i> file:
 
 ```js
 import { useState } from 'react'
@@ -1241,7 +1239,8 @@ Change your application to display statistics only once feedback has been gather
 
 Let's continue refactoring the application. Extract the following two components:
 
-- <i>Button</i> for defining the buttons used for submitting feedback
+- <i>Button</i> Handles the functionality of each feedback submission button.
+
 - <i>StatisticLine</i> for displaying a single statistic, e.g. the average score.
 
 To be clear: the <i>StatisticLine</i> component always displays a single statistic, meaning that the application uses multiple components for rendering all of the statistics:
@@ -1292,7 +1291,7 @@ const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
-    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
     'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
@@ -1312,15 +1311,13 @@ const App = () => {
 export default App
 ```
 
-Content of the file <i>index.js</i> is the same as in previous exercises.
+Content of the file <i>main.jsx</i> is the same as in previous exercises.
 
 Find out how to generate random numbers in JavaScript, eg. via a search engine or on [Mozilla Developer Network](https://developer.mozilla.org). Remember that you can test generating random numbers e.g. straight in the console of your browser.
 
 Your finished application could look something like this:
 
 ![random anecdote with next button](../../images/1/18a.png)
-
-**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
 
 <h4>1.13*: anecdotes step2</h4>
 

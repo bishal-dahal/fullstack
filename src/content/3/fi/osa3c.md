@@ -61,7 +61,7 @@ Kun sovellus "ei toimi", onkin selvitettävä missä vika on. On erittäin yleis
 
 Avainasemassa onkin systemaattisuus. Koska virhe voi olla melkein missä vain, <i>kaikkea pitää epäillä</i>, ja tulee pyrkiä poissulkemaan ne osat, joissa virhe ei ainakaan ole. Konsoliin kirjoitus, Postman, debuggeri ja kokemus auttavat.
 
-Virheiden ilmaantuessa <i>ylivoimaisesti huonoin strategia</i> on jatkaa koodin kirjoittamista. Se on tae siitä, että koodissa on pian kymmenen ongelmaa lisää ja niiden syyn selvittäminen on entistäkin vaikeampaa. Toyota Production Systemin periaate [Stop and fix](http://gettingtolean.com/toyota-principle-5-build-culture-stopping-fix/) toimii tässäkin yhteydessä paremmin kuin hyvin.
+Virheiden ilmaantuessa <i>ylivoimaisesti huonoin strategia</i> on jatkaa koodin kirjoittamista. Se on tae siitä, että koodissa on pian kymmenen ongelmaa lisää ja niiden syyn selvittäminen on entistäkin vaikeampaa. Toyota Production Systemin periaate [Stop and fix](https://leanscape.io/principles-of-lean-13-jidoka/) toimii tässäkin yhteydessä paremmin kuin hyvin.
 
 ### MongoDB
 
@@ -359,7 +359,7 @@ const mongoose = require('mongoose')
 
 // ÄLÄ KOSKAAN TALLETA SALASANOJA GitHubiin!
 const url =
-  `mongodb+srv://fullstack:${fullstack@cluster0.o1opl.mongodb.net/?retryWrites=true&w=majority`
+  `mongodb+srv://fullstack:${password}@cluster0.o1opl.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
@@ -856,11 +856,11 @@ Nyt olemattomien osoitteiden käsittely on sijoitettu <i>ennen HTTP GET ‑pyynn
 
 Toteutetaan vielä jäljellä olevat operaatiot, eli yksittäisen muistiinpanon poisto ja muokkaus.
 
-Poisto onnistuu helpoiten metodilla [findByIdAndRemove](https://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove):
+Poisto onnistuu helpoiten metodilla [findByIdAndDelete](https://mongoosejs.com/docs/api/model.html#Model.findByIdAndDelete):
 
 ```js
 app.delete('/api/notes/:id', (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id)
+  Note.findByIdAndDelete(request.params.id)
     .then(result => {
       response.status(204).end()
     })

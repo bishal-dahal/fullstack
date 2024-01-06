@@ -62,7 +62,7 @@ Next we will have three sets of exercises for automazing the deployment with Git
 
 Before going to the below exercises, you should setup your application in [Fly.io](https://fly.io/) hosting service like the one we did in [part 3](/en/part3/deploying_app_to_internet#application-to-the-internet).
 
-If you rather want to use other hosting options, there is an alternative set of exercises for [Render](http://localhost:8000/en/part11/deployment#exercises-11-10-11-12-render) and for [Heroku](/en/part11/deployment#exercises-11-10-11-12-heroku).
+If you rather want to use other hosting options, there is an alternative set of exercises for [Render](/en/part11/deployment#exercises-11-10-11-12-render) and for [Heroku](/en/part11/deployment#exercises-11-10-11-12-heroku).
 
 In contrast to part 3 now we <i>do not deploy the code</i> to Fly.io ourselves (with the command <i>flyctl deploy</i>), we let the GitHub Actions workflow do that for us!
 
@@ -202,7 +202,7 @@ app.get('/health', (req, res) => {
 })
 ```
 
-Configure then a [HTTP-check](https://fly.io/docs/reference/configuration/#services-http_checks) that ensures the health of the depyments based on the HTTP request to the defined health check endpoint.
+Configure then a [HTTP-check](https://fly.io/docs/reference/configuration/#services-http_checks) that ensures the health of the deployments based on the HTTP request to the defined health check endpoint.
 
 Note that the default fly.toml has defined that <i>http\_checks</i> is an empty array. You need to remove this line when you are adding a manually defined HTTP-check:
 
@@ -252,7 +252,7 @@ Before moving to next exercise, fix your deployment and ensure that the applicat
 
 #### 11.12. Custom health check
 
-**NOTE:** at the moment the the custom health check feature in Fly.io does not work. You can mark this exercise done without doing anything. A replacement for this exercise will be developed later...
+**NOTE:** at the moment the custom health check feature in Fly.io does not work. You can mark this exercise done without doing anything. A replacement for this exercise will be developed later...
 
 Besides TCP and HTTP based health checks, Fly.io allows to use very flexible shell script based health checks. The feature is still undocumented but e.g. [this](https://community.fly.io/t/verifying-services-script-checks-is-supported/1464) shows you how to use it.
 
@@ -332,7 +332,7 @@ If you rather want to use other hosting options, there is an alternative set of 
 
 #### 11.10 Deploying your application to Render
 
-Set up your application in [Render](render.com). The setup is now not quite as straightforward as in [part 3](/en/part3/deploying_app_to_internet#application-to-the-internet). You have to carefully think about what should go to these settings:
+Set up your application in [Render](https://render.com/). The setup is now not quite as straightforward as in [part 3](/en/part3/deploying_app_to_internet#application-to-the-internet). You have to carefully think about what should go to these settings:
 
 ![](../../images/11/render1.png)
 

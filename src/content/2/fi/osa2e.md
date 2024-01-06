@@ -11,7 +11,7 @@ Sovelluksemme ulkoasu on tällä hetkellä hyvin vaatimaton. Osaan 0 liittyväss
 
 Katsotaan vielä tämän osan lopussa nopeasti kahta tapaa liittää tyylejä React-sovellukseen. Tapoja on useita, ja tulemme tarkastelemaan muita myöhemmin. Ensimmäisenä liitämme CSS:n sovellukseemme vanhan kansan tapaan yksittäisenä tiedostona, joka on kirjoitettu käsin ilman [esiprosessorien](https://developer.mozilla.org/en-US/docs/Glossary/CSS_preprocessor) apua (tulemme myöhemmin huomaamaan, että tämä ei ole täysin totta).
 
-Tehdään sovelluksen hakemistoon <i>src</i> tiedosto <i>index.css</i> ja liitetään se sovellukseen lisäämällä tiedostoon <i>index.js</i> seuraava import:
+Tehdään sovelluksen hakemistoon <i>src</i> tiedosto <i>index.css</i> ja liitetään se sovellukseen lisäämällä tiedostoon <i>main.jsx</i> seuraava import:
 
 ```js
 import './index.css'
@@ -77,7 +77,7 @@ Normaalissa HTML:ssä luokat määritellään elementtien attribuutin <i>class</
 <li class="note">tekstiä</li>
 ```
 
-Reactissa tulee kuitenkin classin sijaan käyttää attribuuttia [className](https://reactjs.org/docs/dom-elements.html#classname), joten muutetaan komponenttia <i>Note</i> seuraavasti:
+Reactissa tulee kuitenkin classin sijaan käyttää attribuuttia [className](https://react.dev/learn#adding-styles), joten muutetaan komponenttia <i>Note</i> seuraavasti:
 
 ```js
 const Note = ({ note, toggleImportance }) => {
@@ -199,13 +199,13 @@ Lopputulos näyttää seuraavalta:
 
 ![](../../images/2/26e.png)
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes/tree/part2-7), branchissa <i>part2-7</i>.
+Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part2-7), branchissa <i>part2-7</i>.
 
 ### Inline-tyylit
 
 React mahdollistaa tyylien kirjoittamisen myös suoraan komponenttien koodin joukkoon niin sanoittuina [inline-tyyleinä](https://react-cn.github.io/react/tips/inline-styles.html).
 
-Periaate inline-tyylien määrittelyssä on erittäin yksinkertainen. Mihin tahansa React-komponenttiin tai elementtiin voi liittää attribuutin [style](https://reactjs.org/docs/dom-elements.html#style), jolle annetaan arvoksi JavaScript-oliona määritelty joukko CSS-sääntöjä.
+Periaate inline-tyylien määrittelyssä on erittäin yksinkertainen. Mihin tahansa React-komponenttiin tai elementtiin voi liittää attribuutin [style](https://react.dev/reference/react-dom/components/common#applying-css-styles), jolle annetaan arvoksi JavaScript-oliona määritelty joukko CSS-sääntöjä.
 
 CSS-säännöt määritellään JavaScriptin avulla hieman eri tavalla kuin normaaleissa CSS-tiedostoissa. Jos haluamme asettaa jollekin elementille esimerkiksi vihreän, kursivoidun ja 16 pikselin korkuisen fontin, määrittely ilmaistaan CSS-syntaksilla seuraavasti:
 
@@ -242,7 +242,7 @@ const Footer = () => {
   return (
     <div style={footerStyle}>
       <br />
-      <em>Note app, Department of Computer Science, University of Helsinki 2022</em>
+      <em>Note app, Department of Computer Science, University of Helsinki 2023</em>
     </div>
   )
 }
@@ -272,7 +272,7 @@ CSS:n, HTML:n ja JavaScriptin erottelu omiin tiedostoihinsa ei kuitenkaan ole v�
 
 Toiminnallisen kokonaisuuden strukturointiyksikkö on React-komponentti, joka määrittelee niin sisällön rakenteen kuvaavan HTML:n, toiminnan määrittelevät JavaScript-funktiot kuin komponentin tyylinkin yhdessä paikassa siten, että komponenteista tulee mahdollisimman riippumattomia ja yleiskäyttöisiä.
 
-Sovelluksen lopullinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes/tree/part2-8), branchissa <i>part2-8</i>.
+Sovelluksen lopullinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part2-8), branchissa <i>part2-8</i>.
 
 </div>
 
@@ -308,7 +308,7 @@ Osan lopussa on vielä muutama hieman haastavampi tehtävä. Voit tässä vaihee
 
 Eräs sovelluksessamme tekemä ratkaisu piilottaa yhden hyvin tyypillisen virhetilanteen, mihin tulet varmasti törmäämään monta kertaa.
 
-Alustimme muistiinpanot muistavan tilan alkuarvoksi tyhjän tauluon:
+Alustimme muistiinpanot muistavan tilan alkuarvoksi tyhjän taulukon:
 
 ```js
 const App = () => {
@@ -359,7 +359,7 @@ Muuttuja _notesToShow_ saa arvokseen tilan _notes_ arvon ja koodi yrittää kuts
 
 Mistä tämä johtuu?
 
-Efektohookki asettaa tilaan _notes_ palvelimen palauttamat muistiinpanot funktiolla _setNotes_:
+Effect-hook asettaa tilaan _notes_ palvelimen palauttamat muistiinpanot funktiolla _setNotes_:
 
 ```js
   useEffect(() => {
@@ -438,7 +438,7 @@ Toinen huomiomme liittyy useEffectin toiseen parametriin:
   }, []) // highlight-line
 ```
 
-Funktion <em>useEffect</em> toista parametria käytetään [tarkentamaan sitä, miten usein efekti suoritetaan](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect). Periaate on se, että efekti suoritetaan aina ensimmäisen renderöinnin yhteydessä <i>ja</i> silloin kuin toisena parametrina olevan taulukon sisältö muuttuu.
+Funktion <em>useEffect</em> toista parametria käytetään [tarkentamaan sitä, miten usein efekti suoritetaan](https://react.dev/reference/react/useEffect#parameters). Periaate on se, että efekti suoritetaan aina ensimmäisen renderöinnin yhteydessä <i>ja</i> silloin kuin toisena parametrina olevan taulukon sisältö muuttuu.
 
 Kun toisena parametrina on tyhjä taulukko <em>[]</em>, sen sisältö ei koskaan muutu ja efekti suoritetaan ainoastaan komponentin ensimmäisen renderöinnin jälkeen. Tämä on juuri se mitä haluamme kun alustamme sovelluksen tilan.
 
@@ -532,7 +532,7 @@ if (currency) {
 }
 ```
 
-joka estää valuuttakurssien hakemisen ensimmäisen renderöininin yhteydessä, eli siinä vaiheessa kuin muuttujalla _currency_ on vasta alkuarvo eli tyhjää merkkijono.
+joka estää valuuttakurssien hakemisen ensimmäisen renderöininin yhteydessä, eli siinä vaiheessa kuin muuttujalla _currency_ on vasta alkuarvo eli _null_.
 
 Jos käyttäjä siis kirjoittaa hakukenttään esim. <i>eur</i>, suorittaa sovellus Axiosin avulla HTTP GET ‑pyynnön osoitteeseen https://open.er-api.com/v6/latest/eur ja tallentaa vastauksen tilaaan _rates_. 
 
@@ -562,7 +562,7 @@ On kuitenkin tilanteita, missä vastaava tekniikka ei onnistu. Esim. eräs tapa 
 
 <h4>2.18* maiden tiedot, step1</h4>
 
-Siirrtyään osan lopuksi hieman toisenlaiseen teemaan.
+Siirrytään osan lopuksi hieman toisenlaiseen teemaan.
 
 Osoitteesta [https://studies.cs.helsinki.fi/restcountries/](https://studies.cs.helsinki.fi/restcountries/) löytyy palvelu, joka tarjoaa paljon eri maihin liittyvää tietoa koneluettavassa muodossa ns. REST API:n välityksellä. Tee sovellus, jonka avulla voit tarkastella eri maiden tietoja.
 
@@ -584,8 +584,6 @@ Kun ehdon täyttäviä maita on enää yksi, näytetään maan perustiedot, lipp
 
 **Huom2:** Saatat törmätä ongelmiin tässä tehtävässä, jos määrittelet komponentteja "väärässä paikassa". Nyt kannattaakin ehdottomasti kerrata edellisen osan luku [älä määrittele komponenttia komponentin sisällä](/osa1/monimutkaisempi_tila_reactin_debuggaus#ala-maarittele-komponenttia-komponentin-sisalla).
 
-**VAROITUS** create-react-app tekee projektista automaattisesti Git-repositorion, ellei sovellusta luoda jo olemassa olevan repositorion sisälle. Todennäköisesti **et halua** että projektista tulee repositorio, joten suorita projektin juuressa komento _rm -rf .git_.
-
 <h4>2.19*: maiden tiedot, step2</h4>
 
 **Tässä osassa on vielä paljon tekemistä, joten älä juutu tähän tehtävään!**
@@ -606,18 +604,20 @@ Lisää yksittäisen maan näkymään pääkaupungin säätiedotus. Säätiedotu
 
 Jos käytät Open weather mapia, [täällä](https://openweathermap.org/weather-conditions#Icon-list) on ohje sääikonien generointiin.
 
-**Huom:** Tarvitset melkein kaikkia säätietoja tarjoavia palveluja käyttääksesi API-avaimen. Älä talleta avainta versionhallintaan eli älä kirjoita avainta suoraan koodiin. Avaimen arvo kannattaa määritellä ns. [ympäristömuuttujana](https://create-react-app.dev/docs/adding-custom-environment-variables/).
+**Huom:** Tarvitset melkein kaikkia säätietoja tarjoavia palveluja käyttääksesi API-avaimen. Älä talleta avainta versionhallintaan eli älä kirjoita avainta suoraan koodiin. Avaimen arvo kannattaa määritellä ns. [ympäristömuuttujana](https://vitejs.dev/guide/env-and-mode.html).
 
 Oletetaan että API-avaimen arvo on <i>54l41n3n4v41m34rv0</i>. Kun ohjelma käynnistetään seuraavasti
 
 ```bash
-REACT_APP_API_KEY=54l41n3n4v41m34rv0 npm start
+export VITE_SOME_KEY=54l41n3n4v41m34rv0 && npm run dev // Linux/macOS Bash
+($env:VITE_SOME_KEY="54l41n3n4v41m34rv0") -and (npm run dev) // Windows PowerShell
+set "VITE_SOME_KEY=54l41n3n4v41m34rv0" && npm run dev // Windows cmd.exe
 ```
 
-koodista päästään avaimen arvoon käsiksi olion _process.env_ kautta:
+koodista päästään avaimen arvoon käsiksi olion _import.meta.env_ kautta:
 
 ```js
-const api_key = process.env.REACT_APP_API_KEY
+const api_key = import.meta.env.VITE_SOME_KEY
 // muuttujassa api_key on nyt käynnistyksessä annettu API-avaimen arvo
 ```
 

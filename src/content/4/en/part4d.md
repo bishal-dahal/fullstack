@@ -17,7 +17,7 @@ The principles of token-based authentication are depicted in the following seque
 
 - User starts by logging in using a login form implemented with React
     - We will add the login form to the frontend in [part 5](/en/part5)
-- This causes the React code to send the username and the password to the server address <i>/api/login</i> as a HTTP POST request.
+- This causes the React code to send the username and the password to the server address <i>/api/login</i> as an HTTP POST request.
 - If the username and the password are correct, the server generates a <i>token</i> that somehow identifies the logged-in user.
     - The token is signed digitally, making it impossible to falsify (with cryptographic means)
 - The backend responds with a status code indicating the operation was successful and returns the token with the response.
@@ -31,7 +31,7 @@ Let's first implement the functionality for logging in. Install the [jsonwebtoke
 npm install jsonwebtoken
 ```
 
-The code for login functionality goes to the file controllers/login.js.
+The code for login functionality goes to the file <i>controllers/login.js</i>.
 
 ```js
 const jwt = require('jsonwebtoken')
@@ -69,14 +69,34 @@ module.exports = loginRouter
 ```
 
 The code starts by searching for the user from the database by the <i>username</i> attached to the request.
+
+```js
+const user = await User.findOne({ username })
+```
+
 Next, it checks the <i>password</i>, also attached to the request.
+
+```js
+const passwordCorrect = user === null
+  ? false
+  : await bcrypt.compare(password, user.passwordHash)
+```
+
 Because the passwords themselves are not saved to the database, but <i>hashes</i> calculated from the passwords, the _bcrypt.compare_ method is used to check if the password is correct:
 
 ```js
-await bcrypt.compare(body.password, user.passwordHash)
+await bcrypt.compare(password, user.passwordHash)
 ```
 
-If the user is not found, or the password is incorrect, the request is responded to with the status code [401 unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized). The reason for the failure is explained in the response body.
+If the user is not found, or the password is incorrect, the request is responded with the status code [401 unauthorized](https://www.rfc-editor.org/rfc/rfc9110.html#name-401-unauthorized). The reason for the failure is explained in the response body.
+
+```js
+if (!(user && passwordCorrect)) {
+  return response.status(401).json({
+    error: 'invalid username or password'
+  })
+}
+```
 
 If the password is correct, a token is created with the method _jwt.sign_. The token contains the username and the user id in a digitally signed form.
 
@@ -94,6 +114,12 @@ The digital signature ensures that only parties who know the secret can generate
 The value for the environment variable must be set in the <i>.env</i> file.
 
 A successful request is responded to with the status code <i>200 OK</i>. The generated token and the username of the user are sent back in the response body.
+
+```js
+response
+  .status(200)
+  .send({ token, username: user.username, name: user.name })
+```
 
 Now the code for login just has to be added to the application by adding the new router to <i>app.js</i>.
 
@@ -143,7 +169,7 @@ In practice, this means that if the token is, for example, the string <i>eyJhbGc
 Bearer eyJhbGciOiJIUzI1NiIsInR5c2VybmFtZSI6Im1sdXVra2FpIiwiaW
 </pre>
 
-Creating new notes will change like so:
+Creating new notes will change like so (<i>controllers/notes.js</i>):
 
 ```js
 const jwt = require('jsonwebtoken') //highlight-line
@@ -201,7 +227,7 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
   } else if (error.name ===  'JsonWebTokenError') { // highlight-line
-    return response.status(400).json({ error: error.message }) // highlight-line
+    return response.status(401).json({ error: error.message }) // highlight-line
   }
 
   next(error)
@@ -321,6 +347,8 @@ Usernames, passwords and applications using token authentication must always be 
 
 We will implement login to the frontend in the [next part](/en/part5).
 
+NOTE: At this stage, in the deployed notes app, it is expected that the creating a note feature will stop working as the backend login feature is not yet linked to the frontend.
+
 </div>
 
 <div class="tasks">
@@ -386,7 +414,7 @@ Modify adding new blogs so that it is only possible if a valid token is sent wit
 
 #### 4.20*: bloglist expansion, step8
 
-[This example](/en/part4/token_authentication) from part 4 shows taking the token from the header with the _getTokenFrom_ helper function.
+[This example](/en/part4/token_authentication) from part 4 shows taking the token from the header with the _getTokenFrom_ helper function in <i>controllers/blogs.js</i>.
 
 If you used the same solution, refactor taking the token to a [middleware](/en/part3/node_js_and_express#middleware). The middleware should take the token from the <i>Authorization</i> header and place it into the <i>token</i> field of the <i>request</i> object.
 
@@ -463,8 +491,11 @@ blogsRouter.delete('/:id', async (request, response) => {
 Note that it is possible to register a middleware only for a specific set of routes. So instead of using _userExtractor_ with all the routes,
 
 ```js
+const middleware = require('../utils/middleware');
+// ...
+
 // use the middleware in all routes
-app.use(userExtractor) // highlight-line
+app.use(middleware.userExtractor) // highlight-line
 
 app.use('/api/blogs', blogsRouter)  
 app.use('/api/users', usersRouter)
@@ -474,8 +505,11 @@ app.use('/api/login', loginRouter)
 we could register it to be only executed with path <i>/api/blogs</i> routes:
 
 ```js
+const middleware = require('../utils/middleware');
+// ...
+
 // use the middleware only in /api/blogs routes
-app.use('/api/blogs', userExtractor, blogsRouter) // highlight-line
+app.use('/api/blogs', middleware.userExtractor, blogsRouter) // highlight-line
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 ```
@@ -483,7 +517,10 @@ app.use('/api/login', loginRouter)
 As can be seen, this happens by chaining multiple middlewares as the parameter of function <i>use</i>. It would also be possible to register a middleware only for a specific operation:
 
 ```js
-router.post('/', userExtractor, async (request, response) => {
+const middleware = require('../utils/middleware');
+// ...
+
+router.post('/', middleware.userExtractor, async (request, response) => {
   // ...
 }
 ```

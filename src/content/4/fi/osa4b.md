@@ -32,7 +32,6 @@ Määritellään nyt tiedostossa <i>package.json</i>, että testejä suoritettae
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "fly logs",
     "lint": "eslint .",
-    "lint": "eslint .",
     "test": "NODE_ENV=test jest --verbose --runInBand"// highlight-line
   },
   // ...
@@ -772,7 +771,7 @@ notesRouter.get('/:id', async (request, response, next) => {
 
 notesRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Note.findByIdAndRemove(request.params.id)
+    await Note.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } catch (exception) {
     next(exception)
@@ -827,7 +826,7 @@ Kirjaston koodiin sisällyttämän "magian" ansiosta pääsemme kokonaan eroon t
 ```js
 notesRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Note.findByIdAndRemove(request.params.id)
+    await Note.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } catch (exception) {
     next(exception)
@@ -839,7 +838,7 @@ muuttuu muotoon
 
 ```js
 notesRouter.delete('/:id', async (request, response) => {
-  await Note.findByIdAndRemove(request.params.id)
+  await Note.findByIdAndDelete(request.params.id)
   response.status(204).end()
 })
 ```
@@ -866,7 +865,7 @@ notesRouter.get('/:id', async (request, response) => {
   if (note) {
     response.json(note)
   } else {
-    response.status(201).json(savedNote)
+    response.status(404).json(savedNote)
   }
 })
 ```
@@ -974,7 +973,7 @@ Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://gith
 
 ### Testejä tekevän full stack ‑sovelluskehittäjän vala
 
-Testien tekeminen tuo ohjelmointiin jälleen uuden kerroksen haasteellisuutta. Joudumme päivittämään full stack ‑kehittäjän valaamme muistuttamaan siitä että sytemaattisuus on myös testejä kehitettäessä avainasemassa.
+Testien tekeminen tuo ohjelmointiin jälleen uuden kerroksen haasteellisuutta. Joudumme päivittämään full stack ‑kehittäjän valaamme muistuttamaan siitä että systemaattisuus on myös testejä kehitettäessä avainasemassa.
 
 Full stack ‑ohjelmointi on <i>todella</i> hankalaa, ja sen takia lupaan hyödyntää kaikkia ohjelmointia helpottavia keinoja:
 

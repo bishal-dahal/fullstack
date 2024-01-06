@@ -11,7 +11,7 @@ The appearance of our current application is quite modest. In [exercise 0.2](/en
 
 Let's take a look at how we can add styles to a React application. There are several different ways of doing this and we will take a look at the other methods later on. First, we will add CSS to our application the old-school way; in a single file without using a [CSS preprocessor](https://developer.mozilla.org/en-US/docs/Glossary/CSS_preprocessor) (although this is not entirely true as we will learn later on).
 
-Let's add a new <i>index.css</i> file under the <i>src</i> directory and then add it to the application by importing it in the <i>index.js</i> file:
+Let's add a new <i>index.css</i> file under the <i>src</i> directory and then add it to the application by importing it in the <i>main.jsx</i> file:
 
 ```js
 import './index.css'
@@ -199,7 +199,7 @@ The result looks like this:
 
 ![error removed from server screenshot from app](../../images/2/26e.png)
 
-The code for the current state of our application can be found in the  <i>part2-7</i> branch on [GitHub](https://github.com/fullstack-hy2020/part2-notes/tree/part2-7).
+The code for the current state of our application can be found in the  <i>part2-7</i> branch on [GitHub](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part2-7).
 
 ### Inline styles
 
@@ -243,7 +243,7 @@ const Footer = () => {
   return (
     <div style={footerStyle}>
       <br />
-      <em>Note app, Department of Computer Science, University of Helsinki 2022</em>
+      <em>Note app, Department of Computer Science, University of Helsinki 2023</em>
     </div>
   )
 }
@@ -274,7 +274,7 @@ The philosophy of React is, in fact, the polar opposite of this. Since the separ
 
 The structural units that make up the application's functional entities are React components. A React component defines the HTML for structuring the content, the JavaScript functions for determining functionality, and also the component's styling; all in one place. This is to create individual components that are as independent and reusable as possible.
 
-The code of the final version of our application can be found in the  <i>part2-8</i> branch on [GitHub](https://github.com/fullstack-hy2020/part2-notes/tree/part2-8).
+The code of the final version of our application can be found in the  <i>part2-8</i> branch on [GitHub](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part2-8).
 
 </div>
 
@@ -290,7 +290,7 @@ Use the [improved error message](/en/part2/adding_styles_to_react_app#improved-e
 
 <h4>2.17*: Phonebook step12</h4>
 
-Open your application in two browsers. **If you delete a person in browser 1** a short while before attempting to <i>change the person's phone number</i> in browser 2, you will get the following error message:
+Open your application in two browsers. **If you delete a person in browser 1** a short while before attempting to <i>change the person's phone number</i> in browser 2, you will get the following 2 error messages:
 
 ![error message 404 not found when changing multiple browsers](../../images/2/29b.png)
 
@@ -298,7 +298,7 @@ Fix the issue according to the example shown in [promise and errors](/en/part2/a
 
 ![error message shown on screen instead of in console feature add-on](../../images/2/28e.png)
 
-**Note** that even if you handle the exception, the error message is printed to the console.
+**Note** that even if you handle the exception, the first "404" error message is still printed to the console. But you should not see "Uncaught (in promise) Error".
 
 </div>
 
@@ -441,8 +441,7 @@ The other thing that we still need to have a closer look is the second parameter
   }, []) // highlight-line
 ```
 
-The second parameter of <em>useEffect</em> is used to [specify how often the effect is run](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect).
-The principle is that the effect is always executed after the first render of the component <i>and</i> when the value of the second parameter changes.
+The second parameter of <em>useEffect</em> is used to [specify how often the effect is run](https://react.dev/reference/react/useEffect#parameters). The principle is that the effect is always executed after the first render of the component <i>and</i> when the value of the second parameter changes.
 
 If the second parameter is an empty array <em>[]</em>, it's content never changes and the effect is only run after the first render of the component. This is exactly what we want when we are initializing the app state from the server.
 
@@ -494,6 +493,8 @@ const App = () => {
     </div>
   )
 }
+
+export default App
 ```
 
 The user interface of the application has a form, in the input field of which the name of the desired currency is written. If the currency exists, the application renders the exchange rates of the currency to other currencies:
@@ -584,8 +585,6 @@ When there is only one country matching the query, then the basic data of the co
 
 **NB**: It is enough that your application works for most countries. Some countries, like <i>Sudan</i>, can be hard to support since the name of the country is part of the name of another country, <i>South Sudan</i>. You don't need to worry about these edge cases.
 
-**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
-
 <h4>2.19*: Data for countries, step2</h4>
 
 **There is still a lot to do in this part, so don't get stuck on this exercise!**
@@ -606,29 +605,21 @@ If you use Open weather map, [here](https://openweathermap.org/weather-condition
 
 **NB:** In some browsers (such as Firefox) the chosen API might send an error response, which indicates that HTTPS encryption is not supported, although the request URL starts with _http://_. This issue can be fixed by completing the exercise using Chrome.
 
-**NB:** You need an api-key to use almost every weather service. Do not save the api-key to source control! Nor hardcode the api-key to your source code. Instead use an [environment variable](https://create-react-app.dev/docs/adding-custom-environment-variables/) to save the key.
+**NB:** You need an api-key to use almost every weather service. Do not save the api-key to source control! Nor hardcode the api-key to your source code. Instead use an [environment variable](https://vitejs.dev/guide/env-and-mode.html) to save the key.
 
-Assuming the api-key is <i>t0p53cr3t4p1k3yv4lu3</i>, when the application is started like so:
+Assuming the api-key is <i>54l41n3n4v41m34rv0</i>, when the application is started like so:
 
 ```bash
-REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3 npm start // For Linux/macOS Bash
-($env:REACT_APP_API_KEY="t0p53cr3t4p1k3yv4lu3") -and (npm start) // For Windows PowerShell
-set "REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3" && npm start // For Windows cmd.exe
+export VITE_SOME_KEY=54l41n3n4v41m34rv0 && npm run dev // For Linux/macOS Bash
+($env:VITE_SOME_KEY="54l41n3n4v41m34rv0") -and (npm run dev) // For Windows PowerShell
+set "VITE_SOME_KEY=54l41n3n4v41m34rv0" && npm run dev // For Windows cmd.exe
 ```
 
-you can access the value of the key from the _process.env_ object:
+you can access the value of the key from the _import.meta.env_ object:
 
 ```js
-const api_key = process.env.REACT_APP_API_KEY
+const api_key = import.meta.env.VITE_SOME_KEY
 // variable api_key now has the value set in startup
-```
-
-Note that if you created the application using _npx create-react-app ..._ and you want to use a different name for your environment variable then the environment variable name must still begin with *REACT\_APP_*. You can also use a `.env` file rather than defining it on the command line each time by creating a file entitled '.env' in the root of the project and adding the following.
-
-```
-# .env
-
-REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3
 ```
 
 Note that you will need to restart the server to apply the changes.

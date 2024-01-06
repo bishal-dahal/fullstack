@@ -17,7 +17,7 @@ As mentioned in [part 1](/en/part1/java_script), browsers don't yet support the 
 
 Our goal is to implement a backend that will work with the notes application from [part 2](/en/part2/). However, let's start with the basics by implementing a classic "hello world" application.
 
-**Notice** that the applications and exercises in this part are not all React applications, and we will not use the <i>create-react-app</i> utility for initializing the project for this application.
+**Notice** that the applications and exercises in this part are not all React applications, and we will not use the <i>create vite@latest -- --template react</i> utility for initializing the project for this application.
 
 We had already mentioned [npm](/en/part2/getting_data_from_server#npm) back in part 2, which is a tool used for managing JavaScript packages. In fact, npm originates from the Node ecosystem.
 
@@ -93,7 +93,7 @@ echo "Error: no test specified" && exit 1
 
 ### Simple web server
 
-Let's change the application into a web server by editing the _index.js_ files as follow:
+Let's change the application into a web server by editing the _index.js_ file as follow:
 
 ```js
 const http = require('http')
@@ -154,7 +154,7 @@ import http from 'http'
 
 These days, code that runs in the browser uses ES6 modules. Modules are defined with an [export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) and taken into use with an [import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
 
-However, Node.js uses so-called [CommonJS](https://en.wikipedia.org/wiki/CommonJS) modules. The reason for this is that the Node ecosystem had a need for modules long before JavaScript supported them in the language specification. Node supports now also the use of ES6 modules, but since the support is yet [not quite perfect](https://nodejs.org/api/esm.html#modules-ecmascript-modules) we'll stick to CommonJS modules.
+However, Node.js uses so-called [CommonJS](https://en.wikipedia.org/wiki/CommonJS) modules. The reason for this is that the Node ecosystem had a need for modules long before JavaScript supported them in the language specification. Node supports now also the use of ES6 modules, but since the support is [not quite perfect](https://nodejs.org/api/esm.html#modules-ecmascript-modules) yet, we'll stick to CommonJS modules.
 
 CommonJS modules function almost exactly like ES6 modules, at least as far as our needs in this course are concerned.
 
@@ -634,7 +634,7 @@ If you use *IntelliJ WebStorm* instead, you can use a similar procedure with its
 
 Next, let's make it possible to add new notes to the server. Adding a note happens by making an HTTP POST request to the address <http://localhost:3001/api/notes>, and by sending all the information for the new note in the request [body](https://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7) in JSON format.
 
-To access the data easily, we need the help of the express [json-parser](https://expressjs.com/en/api.html) that is taken to use with command _app.use(express.json())_.
+To access the data easily, we need the help of the express [json-parser](https://expressjs.com/en/api.html) that we can use with the command _app.use(express.json())_.
 
 Let's activate the json-parser and implement an initial handler for dealing with the HTTP POST requests:
 
@@ -658,7 +658,7 @@ app.post('/api/notes', (request, response) => {
 
 The event handler function can access the data from the <i>body</i> property of the _request_ object.
 
-Without the json-parser, the <i>body</i> property would be undefined. The json-parser functions so that it takes the JSON data of a request, transforms it into a JavaScript object and then attaches it to the <i>body</i> property of the _request_ object before the route handler is called.
+Without the json-parser, the <i>body</i> property would be undefined. The json-parser takes the JSON data of a request, transforms it into a JavaScript object and then attaches it to the <i>body</i> property of the _request_ object before the route handler is called.
 
 For the time being, the application does not do anything with the received data besides printing it to the console and sending it back in the response.
 
@@ -762,7 +762,7 @@ app.post('/api/notes', (request, response) => {
 
   const note = {
     content: body.content,
-    important: body.important || false,
+    important: Boolean(body.important) || false,
     id: generateId(),
   }
 
@@ -790,10 +790,10 @@ If the content property has a value, the note will be based on the received data
 If the <i>important</i> property is missing, we will default the value to <i>false</i>. The default value is currently generated in a rather odd-looking way:
 
 ```js
-important: body.important || false,
+important: Boolean(body.important) || false,
 ```
 
-If the data saved in the _body_ variable has the <i>important</i> property, the expression will evaluate to its value. If the property does not exist, then the expression will evaluate to false which is defined on the right-hand side of the vertical lines.
+If the data saved in the _body_ variable has the <i>important</i> property, the expression will evaluate its value and convert it to a boolean value. If the property does not exist, then the expression will evaluate to false which is defined on the right-hand side of the vertical lines.
 
 > To be exact, when the <i>important</i> property is <i>false</i>, then the <em>body.important || false</em> expression will in fact return the <i>false</i> from the right-hand side...
 
@@ -833,7 +833,7 @@ What exactly is happening in that line of code? <em>notes.map(n => n.id)</em> cr
 
 **NB:** It's recommended to do all of the exercises from this part into a new dedicated git repository, and place your source code right at the root of the repository. Otherwise, you will run into problems in exercise 3.10.
 
-**NB:** Because this is not a frontend project and we are not working with React, the application <strong>is not created</strong> with create-react-app. You initialize this project with the <em>npm init</em> command that was demonstrated earlier in this part of the material.
+**NB:** Because this is not a frontend project and we are not working with React, the application <strong>is not created</strong> with create vite@latest -- --template react. You initialize this project with the <em>npm init</em> command that was demonstrated earlier in this part of the material.
 
 **Strong recommendation:** When you are working on backend code, always keep an eye on what's going on in the terminal that is running your application.
 
